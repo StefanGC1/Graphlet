@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Button for Algorithm Visualizer -->
+        <Button
+            android:id="@+id/button_algorithm_visualizer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Algorithm Visualizer"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/button_graph_management"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Graph Management"
+            android:layout_below="@id/button_algorithm_visualizer"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/button_quiz_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quiz Section"
+            android:layout_below="@id/button_graph_management"
+            android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/button_close"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:contentDescription="Close App"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+</RelativeLayout>
