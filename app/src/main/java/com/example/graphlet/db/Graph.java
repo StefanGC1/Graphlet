@@ -57,12 +57,22 @@ public class Graph implements Serializable {
     public static class Edge implements Serializable {
         public int nodeId1;
         public int nodeId2;
+        public double weight;
         public boolean isDirected;
         public boolean isSelected;
 
         public Edge(int nodeId1, int nodeId2, boolean isDirected) {
             this.nodeId1 = nodeId1;
             this.nodeId2 = nodeId2;
+            this.weight = 0.0f;
+            this.isDirected = isDirected;
+            this.isSelected = false;
+        }
+
+        public Edge(int nodeId1, int nodeId2, double weight, boolean isDirected) {
+            this.nodeId1 = nodeId1;
+            this.nodeId2 = nodeId2;
+            this.weight = weight;
             this.isDirected = isDirected;
             this.isSelected = false;
         }

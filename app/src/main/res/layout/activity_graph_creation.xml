@@ -116,6 +116,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"/>
 
+            <LinearLayout
+                android:id="@+id/edge_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp"/>
+
             <Button
                 android:id="@+id/button_create_graph"
                 android:layout_width="wrap_content"

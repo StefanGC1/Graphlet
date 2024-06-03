@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import com.example.graphlet.db.GraphDatabaseHelper;
 
 import java.util.Objects;
 
-public class GraphCreationActivity extends AppCompatActivity {
+public class GraphCreationActivity extends AppCompatActivity implements GridPlaneView.OnEdgeDeletedListener {
     public static final String EXTRA_MODE = "com.example.graphlet.MODE";
     public static final String EXTRA_GRAPH = "com.example.graphlet.GRAPH";
 
@@ -44,6 +45,7 @@ public class GraphCreationActivity extends AppCompatActivity {
     private ScrollView slidingWindow;
     private EditText editTextGraphName;
     private Spinner spinnerGraphType;
+    private LinearLayout edgeListContainer;
     private boolean isAddingMode = false;
     private boolean isWindowVisible = false;
 
@@ -69,9 +71,12 @@ public class GraphCreationActivity extends AppCompatActivity {
         slidingWindow = findViewById(R.id.sliding_window);
         editTextGraphName = findViewById(R.id.edit_text_graph_name);
         spinnerGraphType = findViewById(R.id.spinner_graph_type);
+        edgeListContainer = findViewById(R.id.edge_list_container);
 
         slidingWindow.setVisibility(View.INVISIBLE);
         slidingWindow.setTranslationY(500);
+
+        gridPlaneView.setOnEdgeDeletedListener(this);
 
         ArrayAdapter<Graph.GraphType> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, Graph.GraphType.values());
@@ -87,6 +92,7 @@ public class GraphCreationActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Graph.GraphType selectedType = (Graph.GraphType) parent.getItemAtPosition(position);
                 gridPlaneView.setGraphType(selectedType);
+                updateEdgeList();
             }
 
             @Override
@@ -147,6 +153,7 @@ public class GraphCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gridPlaneView.linkSelectedNodes();
+                updateEdgeList();
             }
         });
 
@@ -157,7 +164,7 @@ public class GraphCreationActivity extends AppCompatActivity {
                 Graph.GraphType graphType = (Graph.GraphType) spinnerGraphType.getSelectedItem();
                 System.out.println(graphType.toString() + " STEFAN IN GRAPHCREATION");
                 if (!graphName.isEmpty()) {
-                    Graph graph = gridPlaneView.getGraph(graphName, graphType);
+                    Graph graph = gridPlaneView.getGraph(graphName);
                     long id = 0;
 
                     if (mode == Mode.CREATE) {
@@ -179,18 +186,18 @@ public class GraphCreationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        updateEdgeList();
     }
 
     private void handleMode() {
         if (mode == Mode.CREATE) {
-            return;
         } else if (mode == Mode.MODIFY) {
             Graph graph = (Graph) getIntent().getSerializableExtra(EXTRA_GRAPH);
             if (graph != null) {
                 loadGraph(graph);
             }
         } else if (mode == Mode.VIEW) {
-
             Graph graph = (Graph) getIntent().getSerializableExtra(EXTRA_GRAPH);
             if (graph != null) {
                 loadGraph(graph);
@@ -216,6 +223,37 @@ public class GraphCreationActivity extends AppCompatActivity {
         gridPlaneView.setEdges(graph.edges);
         gridPlaneView.setGraphType(graph.type);
         gridPlaneView.invalidate();
+        updateEdgeList();
+    }
+
+    @Override
+    public void updateEdgeList() {
+        edgeListContainer.removeAllViews();
+        for (Graph.Edge edge : gridPlaneView.getEdges()) {
+            View edgeView = getLayoutInflater().inflate(R.layout.item_edge, edgeListContainer, false);
+
+            TextView edgeText = edgeView.findViewById(R.id.edge_text);
+            EditText edgeWeight = edgeView.findViewById(R.id.edge_weight);
+
+            Graph.Node node1 = gridPlaneView.getNodeById(edge.nodeId1);
+            Graph.Node node2 = gridPlaneView.getNodeById(edge.nodeId2);
+            if (node1 != null && node2 != null) {
+                edgeText.setText("Edge" + node1.id + (edge.isDirected ? " -> " : " - ") + node2.id);
+                edgeWeight.setText(String.valueOf(edge.weight));
+                edgeWeight.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (!hasFocus) {
+                        try {
+                            double weight = Double.parseDouble(edgeWeight.getText().toString());
+                            edge.weight = weight;
+                            gridPlaneView.updateEdgeWeight(edge.nodeId1, edge.nodeId2, weight);
+                        } catch (NumberFormatException e) {
+                            edgeWeight.setText(String.valueOf(edge.weight));
+                        }
+                    }
+                });
+                edgeListContainer.addView(edgeView);
+            }
+        }
     }
 
     private void slideWindowUp() {

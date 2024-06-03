@@ -19,6 +19,7 @@ import java.util.List;
 
 public class GridPlaneView extends View {
 
+    private OnEdgeDeletedListener listener;
     private Paint paint;
     private Paint nodePaint;
     private Paint selectedNodePaint;
@@ -27,6 +28,7 @@ public class GridPlaneView extends View {
     private Paint edgePaint;
     private Paint selectedEdgePaint;
     private Paint textPaint;
+    private Paint edgeTextPaint;
     private boolean isAddingMode;
     private List<Graph.Node> nodes;
     private List<Graph.Edge> edges;
@@ -87,6 +89,11 @@ public class GridPlaneView extends View {
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(30);
 
+        edgeTextPaint = new Paint();
+        edgeTextPaint.setColor(Color.BLACK);
+        edgeTextPaint.setTextAlign(Paint.Align.CENTER);
+        edgeTextPaint.setTextSize(30);
+
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
         selectedNodes = new ArrayList<>();
@@ -121,6 +128,18 @@ public class GridPlaneView extends View {
                 if (edge.isDirected) {
                     drawArrow(canvas, adjustedPoints[0], adjustedPoints[1], adjustedPoints[2], adjustedPoints[3], edge.isSelected);
                 }
+
+                float midX = (adjustedPoints[0] + adjustedPoints[2]) / 2;
+                float midY = (adjustedPoints[1] + adjustedPoints[3]) / 2;
+
+                // Calculate the perpendicular offset
+                float dx = adjustedPoints[2] - adjustedPoints[0];
+                float dy = adjustedPoints[3] - adjustedPoints[1];
+                float length = (float) Math.sqrt(dx * dx + dy * dy);
+                float offsetX = -dy / length * 30; // 20 pixels offset
+                float offsetY = dx / length * 30;
+
+                canvas.drawText(String.valueOf(edge.weight), midX - offsetX, midY - offsetY - ((edgeTextPaint.descent() + edgeTextPaint.ascent()) / 2), edgeTextPaint);
             }
         }
 
@@ -281,6 +300,7 @@ public class GridPlaneView extends View {
             }
         }
         edges.removeAll(toRemove);
+        listener.updateEdgeList();
         invalidate();
     }
 
@@ -296,7 +316,7 @@ public class GridPlaneView extends View {
         }
     }
 
-    private Graph.Node getNodeById(int id) {
+    Graph.Node getNodeById(int id) {
         for (Graph.Node node : nodes) {
             if (node.id == id) {
                 return node;
@@ -305,7 +325,7 @@ public class GridPlaneView extends View {
         return null;
     }
 
-    public Graph getGraph(String name, Graph.GraphType graphType) {
+    public Graph getGraph(String name) {
         Graph graph = new Graph(0, name, graphType);
 
         for (Graph.Edge edge : edges) {
@@ -332,7 +352,32 @@ public class GridPlaneView extends View {
         this.edges = edges;
     }
 
+    public List<Graph.Node> getNodes() {
+        return nodes;
+    }
+    public List<Graph.Edge> getEdges() {
+        return edges;
+    }
+
     public void setTouchEventEnabled(boolean enabled) {
         isTouchEventEnabled = enabled;
+    }
+
+    public void updateEdgeWeight(int nodeId1, int nodeId2, double weight) {
+        for (Graph.Edge edge : edges) {
+            if (edge.nodeId1 == nodeId1 && edge.nodeId2 == nodeId2) {
+                edge.weight = weight;
+                invalidate();
+                return;
+            }
+        }
+    }
+
+    public interface OnEdgeDeletedListener {
+        public void updateEdgeList();
+    }
+
+    public void setOnEdgeDeletedListener(OnEdgeDeletedListener listener) {
+        this.listener = listener;
     }
 }

@@ -54,7 +54,6 @@ public class GraphListFragment extends Fragment {
             long currentTime = System.currentTimeMillis();
 
             if (selectedGraph != null && selectedGraph.equals(graph)) {
-                System.out.println(graph.type.toString() + " STEFAN IN GraphListFragment");
                 if (currentTime - lastTapTime < DOUBLE_TAP_THRESHOLD) {
                     if (listener != null) {
                         listener.onGraphViewRequested(graph);
@@ -107,7 +106,8 @@ public class GraphListFragment extends Fragment {
             Graph graph = getItem(position);
             TextView textView = convertView.findViewById(android.R.id.text1);
             assert graph != null;
-            textView.setText(graph.name);
+            textView.setText(
+                graph.name + ", " + (graph.type == Graph.GraphType.DIJKSTRA_DIRECTED ? "Directed" : "Undirected"));
 
             if (graph.equals(selectedGraph)) {
                 textView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorPrimary));

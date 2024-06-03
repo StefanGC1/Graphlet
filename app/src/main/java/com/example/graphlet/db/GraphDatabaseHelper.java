@@ -141,7 +141,7 @@ public class GraphDatabaseHelper extends SQLiteOpenHelper {
     private String edgesToString(List<Graph.Edge> edges) {
         StringBuilder sb = new StringBuilder();
         for (Graph.Edge edge : edges) {
-            sb.append(edge.nodeId1).append(",").append(edge.nodeId2).append(",").append(edge.isDirected ? 1 : 0).append(";");
+            sb.append(edge.nodeId1).append(",").append(edge.nodeId2).append(",").append(edge.weight).append(",").append(edge.isDirected ? 1 : 0).append(";");
         }
         return sb.toString();
     }
@@ -152,7 +152,12 @@ public class GraphDatabaseHelper extends SQLiteOpenHelper {
         for (String edgeString : edgeStrings) {
             if (!edgeString.isEmpty()) {
                 String[] edgeAttributes = edgeString.split(",");
-                edges.add(new Graph.Edge(Integer.parseInt(edgeAttributes[0]), Integer.parseInt(edgeAttributes[1]), Integer.parseInt(edgeAttributes[2]) == 1));
+                edges.add(
+                    new Graph.Edge(
+                        Integer.parseInt(edgeAttributes[0]),
+                        Integer.parseInt(edgeAttributes[1]),
+                        Double.parseDouble(edgeAttributes[2]),
+                        Integer.parseInt(edgeAttributes[3]) == 1));
             }
         }
         return edges;
