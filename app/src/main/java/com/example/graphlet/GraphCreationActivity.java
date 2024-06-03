@@ -2,7 +2,6 @@ package com.example.graphlet;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.graphlet.db.Graph;
+import com.example.graphlet.models.Graph;
 import com.example.graphlet.db.GraphDatabaseHelper;
 
 import java.util.Objects;
@@ -162,7 +161,6 @@ public class GraphCreationActivity extends AppCompatActivity implements GridPlan
             public void onClick(View v) {
                 String graphName = editTextGraphName.getText().toString().trim();
                 Graph.GraphType graphType = (Graph.GraphType) spinnerGraphType.getSelectedItem();
-                System.out.println(graphType.toString() + " STEFAN IN GRAPHCREATION");
                 if (!graphName.isEmpty()) {
                     Graph graph = gridPlaneView.getGraph(graphName);
                     long id = 0;

@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.graphlet.db.Graph;
+import com.example.graphlet.models.Graph;
 import com.example.graphlet.db.GraphDatabaseHelper;
 
 import java.util.List;

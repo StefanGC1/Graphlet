@@ -8,12 +8,11 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.graphlet.db.Graph;
+import com.example.graphlet.models.Graph;
 import com.example.graphlet.db.GraphDatabaseHelper;
 
 public class GraphManagementActivity extends AppCompatActivity implements GraphListFragment.OnGraphSelectedListener {

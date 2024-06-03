@@ -28,16 +28,14 @@ public class MainActivity extends AppCompatActivity {
         buttonAlgorithmVisualizer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent to open Algorithm Visualizer Activity
-                // Intent intent = new Intent(MainActivity.this, AlgorithmVisualizerActivity.class);
-                // startActivity(intent);
+                 Intent intent = new Intent(MainActivity.this, AlgorithmVisualizerActivity.class);
+                 startActivity(intent);
             }
         });
 
         buttonGraphManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent to open Graph Management Activity
                 Intent intent = new Intent(MainActivity.this, GraphManagementActivity.class);
                 startActivity(intent);
             }

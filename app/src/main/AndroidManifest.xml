@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Graphlet"
         tools:targetApi="31">
         <activity
+            android:name=".GraphSolverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AlgorithmVisualizerActivity"
+            android:exported="false" />
+        <activity
             android:name=".GraphCreationActivity"
             android:exported="false" />
         <activity
@@ -29,7 +35,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.example.graphlet.db.Graph;
+import com.example.graphlet.models.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -364,6 +364,37 @@ public class GridPlaneView extends View {
     }
 
     public void updateEdgeWeight(int nodeId1, int nodeId2, double weight) {
+        for (Graph.Edge edge : edges) {
+            if (edge.nodeId1 == nodeId1 && edge.nodeId2 == nodeId2) {
+                edge.weight = weight;
+                invalidate();
+                return;
+            }
+        }
+    }
+
+    public void setSelectedNodes(List<Integer> nodeIds) {
+        for (Graph.Node node : nodes) {
+            node.isSelected = nodeIds.contains(node.id);
+        }
+        invalidate();
+    }
+
+    public void setSelectedEdges(List<Integer[]> edgeIds) {
+        for (Graph.Edge edge : edges) {
+            edge.isSelected = false;
+            for (Integer[] edgeId : edgeIds) {
+                if ((edge.nodeId1 == edgeId[0] && edge.nodeId2 == edgeId[1]) ||
+                        (edge.nodeId1 == edgeId[1] && edge.nodeId2 == edgeId[0])) {
+                    edge.isSelected = true;
+                    break;
+                }
+            }
+        }
+        invalidate();
+    }
+
+    public void setEdgeWeight(int nodeId1, int nodeId2, double weight) {
         for (Graph.Edge edge : edges) {
             if (edge.nodeId1 == nodeId1 && edge.nodeId2 == nodeId2) {
                 edge.weight = weight;

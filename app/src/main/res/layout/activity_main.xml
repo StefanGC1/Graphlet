@@ -36,7 +36,8 @@
             android:layout_height="wrap_content"
             android:text="Quiz Section"
             android:layout_below="@id/button_graph_management"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <ImageView

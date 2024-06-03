@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.graphlet.models.Graph;
+
 import java.util.ArrayList;
 import java.util.List;
 

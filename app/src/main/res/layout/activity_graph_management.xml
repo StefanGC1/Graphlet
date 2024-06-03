@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:gravity="center"
+        android:gravity="end"
         style="?android:attr/buttonBarStyle">
 
         <Button
@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="100dp"
             android:text="All"
+            android:visibility="gone"
             style="?android:attr/buttonBarButtonStyle" />
 
         <Button
