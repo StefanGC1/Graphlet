@@ -33,6 +33,8 @@ public class GraphSolverActivity extends AppCompatActivity {
     private ScrollView scrollView;
     private TextView algorithmStepText;
     private Button nextButton;
+    private LinearLayout startNodeLayout;
+    private LinearLayout endNodeLayout;
 
     private int currentStep = 0;
     private int startNodeId = -1;
@@ -55,30 +57,25 @@ public class GraphSolverActivity extends AppCompatActivity {
         scrollView = findViewById(R.id.scroll_view);
         algorithmStepText = findViewById(R.id.algorithm_step_text);
         nextButton = findViewById(R.id.next_button);
-
-        // Set graph properties in GridPlaneView
+        startNodeLayout = findViewById(R.id.start_node_layout);
+        endNodeLayout = findViewById(R.id.end_node_layout);
+        
         gridPlaneView.setNodes(graph.nodes);
         gridPlaneView.setEdges(graph.edges);
         gridPlaneView.setGraphType(graph.type);
 
-        // Populate spinners with node IDs
         populateNodeSpinners();
 
-        // Set listeners for the "Continue" button
         continueButton.setOnClickListener(v -> {
             startNodeId = (int) startNodeSpinner.getSelectedItem();
             endNodeId = (int) endNodeSpinner.getSelectedItem();
             startAlgorithmVisualizerPhase();
         });
 
-        // Set listener for the "Next" button
         nextButton.setOnClickListener(v -> {
-            if (nextButton.getText().toString().equals("Finish"))
-                finish();
-            executeAlgorithmStep();
+            fadeOutBottomLayout(this::executeAlgorithmStep);
         });
 
-        // Start the info-fetch phase
         startInfoFetchPhase();
     }
 
@@ -95,44 +92,37 @@ public class GraphSolverActivity extends AppCompatActivity {
     }
 
     private void startInfoFetchPhase() {
-        // Set up the UI for info-fetch phase
         infoText.setVisibility(View.VISIBLE);
-        startNodeSpinner.setVisibility(View.VISIBLE);
-        endNodeSpinner.setVisibility(View.VISIBLE);
+        startNodeLayout.setVisibility(View.VISIBLE);
+        endNodeLayout.setVisibility(View.VISIBLE);
         continueButton.setVisibility(View.VISIBLE);
         scrollView.setVisibility(View.GONE);
         nextButton.setVisibility(View.GONE);
     }
 
     private void startAlgorithmVisualizerPhase() {
-        // Transition to the algorithm-visualizer phase
         fadeOutBottomLayout(() -> {
             infoText.setVisibility(View.GONE);
-            startNodeSpinner.setVisibility(View.GONE);
-            endNodeSpinner.setVisibility(View.GONE);
+            startNodeLayout.setVisibility(View.GONE);
+            endNodeLayout.setVisibility(View.GONE);
             continueButton.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.VISIBLE);
 
-            // Initialize Dijkstra's algorithm
             initializeDijkstraAlgorithm();
         });
     }
 
     private void initializeDijkstraAlgorithm() {
-        // Perform Dijkstra's algorithm with steps
         algorithmSteps = graph.performDijkstraWithSteps(startNodeId, endNodeId);
 
-        // Start the first step of the algorithm
         executeAlgorithmStep();
     }
 
     private void executeAlgorithmStep() {
         if (currentStep < algorithmSteps.size()) {
-            // Get the current step
             AlgorithmStep step = algorithmSteps.get(currentStep);
 
-            // Highlight nodes and edges based on the current step
             List<Integer> selectedNodes = new ArrayList<>();
             selectedNodes.add(step.currentNodeId);
             gridPlaneView.setSelectedNodes(selectedNodes);
@@ -145,7 +135,6 @@ public class GraphSolverActivity extends AppCompatActivity {
             }
             gridPlaneView.setSelectedEdges(selectedEdges);
 
-            // Update the algorithm step text with distances and explanations
             StringBuilder stepDescription = new StringBuilder();
             stepDescription.append(step.explanation).append("\n");
             stepDescription.append("Current distances:\n");
@@ -155,18 +144,16 @@ public class GraphSolverActivity extends AppCompatActivity {
 
             algorithmStepText.setText(stepDescription.toString());
 
-            // Move to the next step
             currentStep++;
+
+            fadeInBottomLayout();
 
             if (currentStep >= algorithmSteps.size()) {
                 nextButton.setText("Finish");
-            } else {
-                fadeInBottomLayout();
+                nextButton.setOnClickListener(v -> {
+                    finish();
+                });
             }
-        } else {
-            // Algorithm completed
-            algorithmStepText.setText("Algorithm completed.");
-            nextButton.setText("Finish");
         }
     }
 
