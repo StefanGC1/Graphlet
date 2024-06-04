@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonGraphManagement;
     private Button buttonQuizSection;
     private ImageView buttonClose;
+    private ImageView buttonHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         buttonGraphManagement = findViewById(R.id.button_graph_management);
         buttonQuizSection = findViewById(R.id.button_quiz_section);
         buttonClose = findViewById(R.id.button_close);
+        buttonHelp = findViewById(R.id.button_help);
 
         buttonAlgorithmVisualizer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 System.exit(0);
+            }
+        });
+
+        buttonHelp.setOnClickListener(new View.OnClickListener() { // Add this block
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HelpMenuActivity.class);
+                startActivity(intent);
             }
         });
     }

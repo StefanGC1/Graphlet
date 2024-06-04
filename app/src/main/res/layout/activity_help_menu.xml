@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpMenuActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="App Description"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/app_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This app is designed to help users understand and solve various graph theory algorithms. The app provides visualization tools to explain different graph algorithms, such as Dijkstra's algorithm for finding the shortest path, and tools for managing graphs, including creating, modifying, and removing graphs."
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Graph Management"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/graph_management_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In the Graph Management section, you can create, modify, and remove graphs. This tool helps users manage their graphs effectively, providing functionalities to add new graphs, edit existing ones, and delete unwanted graphs.\n\nWhen you enter this section, you will see a list of graphs you have created. Each graph will be displayed with its name and a brief description. You can select a graph to highlight it. Double-tapping a graph will open it in view mode, where you can see all the nodes and edges in detail.\n\nTo create a new graph, click the 'Create' button. You will be prompted to enter a name and select a type for the graph (e.g., directed or undirected). Once you have entered the necessary information, click 'Save' to create the graph. The new graph will be added to your list of graphs.\n\nTo modify an existing graph, select the graph from the list and click the 'Modify' button. This will open the graph in edit mode, where you can add or remove nodes and edges, and change the properties of the graph. Use the provided tools to make your changes, and click 'Save' to apply them.\n\nTo remove a graph, select the graph from the list and click the 'Remove' button. You will be asked to confirm your action to prevent accidental deletions. Once confirmed, the graph will be removed from your list.\n\nGraph Creation:\n\nWhen creating a graph, you will be asked to provide the following details:\n1. Name: Enter a unique name for the graph.\n2. Type: Select the type of graph (directed or undirected).\n\nAfter providing these details, click the 'Save' button to create the graph. The new graph will be available in the Graph Management section, where you can further modify it by adding nodes and edges.\n\nIn the Graph Management section, all your graphs are organized and easily accessible, allowing you to manage and visualize your data effectively."
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Algorithm Visualizer"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/algorithm_visualizer_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In the Algorithm Visualizer section, you can visualize the execution of graph algorithms such as Dijkstra's algorithm. This tool helps users understand how the algorithm works step-by-step.\n\nWhen you enter this section, you will be prompted to select to select a graph, followed by pressing the 'Continue' button.After that, you will be prompted to select a start node and an end node from the dropdown menus. Once you have selected the nodes, click the 'Continue' button to proceed to the visualization phase.\n\nDuring the visualization phase, the graph will be displayed at the top of the screen, and detailed explanations of each step will be shown at the bottom. The steps include initialization, processing nodes, relaxing edges, and updating distances.\n\nUse the 'Next' button to move through each step of the algorithm. The graph will update to highlight the current node and edges being processed. The explanation text will detail what is happening in each step, including any updates to distances and paths.\n\nIf the algorithm successfully finds a path, it will indicate the shortest path from the start node to the end node. If no path is found, the final step will explain that the start node has no path to the end node."
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

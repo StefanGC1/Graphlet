@@ -101,6 +101,8 @@ public class Graph implements Serializable {
         steps.add(new AlgorithmStep(startNodeId, distances, previousNodes, stepNumber, explanation));
         stepNumber++;
 
+        boolean reachedEndNode = false;
+
         while (!pq.isEmpty()) {
             NodeDistance current = pq.poll();
             int currentNodeId = current.nodeId;
@@ -113,6 +115,7 @@ public class Graph implements Serializable {
             if (currentNodeId == endNodeId) {
                 explanation = "Reached the end node " + endNodeId + ".";
                 steps.add(new AlgorithmStep(currentNodeId, distances, previousNodes, stepNumber, explanation));
+                reachedEndNode = true;
                 break;
             }
 
@@ -137,8 +140,13 @@ public class Graph implements Serializable {
             }
         }
 
-        explanation = "Final distances computed.";
-        steps.add(new AlgorithmStep(endNodeId, distances, previousNodes, stepNumber, explanation));
+        if (!reachedEndNode) {
+            explanation = "No path found from node " + startNodeId + " to node " + endNodeId + ".";
+            steps.add(new AlgorithmStep(endNodeId, distances, previousNodes, stepNumber, explanation));
+        } else {
+            explanation = "Final distances computed.";
+            steps.add(new AlgorithmStep(endNodeId, distances, previousNodes, stepNumber, explanation));
+        }
 
         return steps;
     }
