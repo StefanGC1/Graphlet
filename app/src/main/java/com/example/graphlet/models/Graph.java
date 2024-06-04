@@ -101,8 +101,6 @@ public class Graph implements Serializable {
         steps.add(new AlgorithmStep(startNodeId, distances, previousNodes, stepNumber, explanation));
         stepNumber++;
 
-        boolean reachedEndNode = false;
-
         while (!pq.isEmpty()) {
             NodeDistance current = pq.poll();
             int currentNodeId = current.nodeId;
@@ -115,12 +113,12 @@ public class Graph implements Serializable {
             if (currentNodeId == endNodeId) {
                 explanation = "Reached the end node " + endNodeId + ".";
                 steps.add(new AlgorithmStep(currentNodeId, distances, previousNodes, stepNumber, explanation));
-                reachedEndNode = true;
                 break;
             }
 
             for (Edge edge : edges) {
-                if (edge.nodeId1 == currentNodeId || edge.nodeId2 == currentNodeId) {
+                if ((type == GraphType.DIJKSTRA_UNDIRECTED && (edge.nodeId1 == currentNodeId || edge.nodeId2 == currentNodeId)) ||
+                        (type == GraphType.DIJKSTRA_DIRECTED && edge.nodeId1 == currentNodeId)) {
                     int neighborId = (edge.nodeId1 == currentNodeId) ? edge.nodeId2 : edge.nodeId1;
                     double newDist = distances.get(currentNodeId) + edge.weight;
 
@@ -139,13 +137,8 @@ public class Graph implements Serializable {
             }
         }
 
-        if (!reachedEndNode) {
-            explanation = "No path found from node " + startNodeId + " to node " + endNodeId + ".";
-            steps.add(new AlgorithmStep(endNodeId, distances, previousNodes, stepNumber, explanation));
-        } else {
-            explanation = "Final distances computed.";
-            steps.add(new AlgorithmStep(endNodeId, distances, previousNodes, stepNumber, explanation));
-        }
+        explanation = "Final distances computed.";
+        steps.add(new AlgorithmStep(endNodeId, distances, previousNodes, stepNumber, explanation));
 
         return steps;
     }

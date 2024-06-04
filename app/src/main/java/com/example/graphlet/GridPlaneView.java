@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import com.example.graphlet.models.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GridPlaneView extends View {
 
@@ -381,6 +383,29 @@ public class GridPlaneView extends View {
     }
 
     public void setSelectedEdges(List<Integer[]> edgeIds) {
+        for (Graph.Edge edge : edges) {
+            edge.isSelected = false;
+            for (Integer[] edgeId : edgeIds) {
+                if ((edge.nodeId1 == edgeId[0] && edge.nodeId2 == edgeId[1]) ||
+                        (edge.nodeId1 == edgeId[1] && edge.nodeId2 == edgeId[0])) {
+                    edge.isSelected = true;
+                    break;
+                }
+            }
+        }
+        invalidate();
+    }
+
+    public void setSelectedEdges(Map<Integer, Integer> previousNodes, Integer endNodeId) {
+        List<Integer[]> selectedEdges = new ArrayList<>();
+
+        List<Integer[]> edgeIds = new ArrayList<>();
+        for (int nodeId : previousNodes.keySet()) {
+            if (previousNodes.get(nodeId) != -1) {
+                selectedEdges.add(new Integer[]{nodeId, previousNodes.get(nodeId)});
+            }
+        }
+
         for (Graph.Edge edge : edges) {
             edge.isSelected = false;
             for (Integer[] edgeId : edgeIds) {

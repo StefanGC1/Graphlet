@@ -59,7 +59,7 @@ public class GraphSolverActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_button);
         startNodeLayout = findViewById(R.id.start_node_layout);
         endNodeLayout = findViewById(R.id.end_node_layout);
-        
+
         gridPlaneView.setNodes(graph.nodes);
         gridPlaneView.setEdges(graph.edges);
         gridPlaneView.setGraphType(graph.type);
